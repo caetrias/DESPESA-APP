@@ -6,6 +6,11 @@ import time
 def clear():
     return os.system("cls")
 
+#FUNCAO MENSAGEM DE CARREGAMENTO
+def loading():
+    print("Carregando...")
+    time.sleep(1.5)
+
 #TELA DO LOGIN
 def login():
     clear()
@@ -50,19 +55,47 @@ def tela_despesas():
 
     decisao = int(input())
     if decisao == 1:
+        loading()
         return ADICIONAR_GASTOS()
     if decisao == 2:
+        loading()
         return VISUALIZAR_GASTOS()
     if decisao == 3:
+        loading()
         return APAGAR_GASTOS()
     if decisao == 4:
+        loading()
         return "tela edicao"
 
 def ADICIONAR_GASTOS():
-    print("") #-> input TITULO do gasto, CATEGORIA, VALOR
+    clear()
+    with open("valores.csv", "a") as f:
+        titulo = input("Digite o título da despesa: ")
+        categoria = input("Digite a categoria da despesa: ")
+        valor = float(input("Digite o valor da despesa: "))
+
+        linha = f"{titulo};{categoria};{valor}\n"  # Monta a linha com os valores separados por ponto e vírgula
+
+        f.write(linha)
+        f.close()
+    tela_despesas()
+
 
 def VISUALIZAR_GASTOS():
-    print("") #-> read no arquivo CSV/dicionario
+    clear()
+    with open("valores.csv", "r") as f:
+        linhas = f.readlines()  # Lê todas as linhas do arquivo
+
+        for linha in linhas:
+            titulo, categoria, valor = linha.strip().split(";")  # Divide a linha em campos usando o ponto e vírgula como separador
+            valor = float(valor)  # Converte o valor para float
+
+            print("--------------------")
+            print("Título:", titulo)
+            print("Categoria:", categoria)
+            print("Valor:", valor)
+            print("--------------------")
+
               #  -> PERGUNTA: CATEGORIA ESPECIFICA; PERGUNTA: GASTOS POR CATEGORIA
 
 def APAGAR_GASTOS():
