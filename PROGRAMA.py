@@ -71,7 +71,7 @@ def ADICIONAR_GASTOS():
     clear()
     with open("valores.csv", "a") as f:
         titulo = input("Digite o título da despesa: ")
-        categoria = input("Digite a categoria da despesa: ")
+        categoria = input("Digite a categoria: ")
         valor = float(input("Digite o valor da despesa: "))
 
         linha = f"{titulo};{categoria};{valor}\n"  # Monta a linha com os valores separados por ponto e vírgula
