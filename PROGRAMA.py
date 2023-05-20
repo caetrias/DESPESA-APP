@@ -8,6 +8,7 @@ def clear():
 
 #FUNCAO MENSAGEM DE CARREGAMENTO
 def loading():
+    clear()
     print("Carregando...")
     time.sleep(1.5)
 
@@ -44,7 +45,10 @@ def tela_inicio():
         return cadastro()
     if decisao == 3:
         return print("FIM DE PROGRAMA")
-
+    else:
+        print("Opção não existe. Reiniciando...")
+        time.sleep(1)
+#TELA PRINCIPAL (PÓS TELA INICIAL DE LOGIN)
 def tela_despesas():
     clear()
     print("-------------[DESPESAS]-------------")
@@ -67,41 +71,77 @@ def tela_despesas():
         loading()
         return "tela edicao"
 
+#TELA ADICIONAR GASTOS
 def ADICIONAR_GASTOS():
     clear()
-    with open("valores.csv", "a") as f:
-        titulo = input("Digite o título da despesa: ")
-        categoria = input("Digite a categoria da despesa: ")
-        valor = float(input("Digite o valor da despesa: "))
+    f = open("valores.csv", "a")
+    titulo = input("Digite o título da despesa: ")
+    categoria = input("Digite a categoria da despesa: ")
+    valor = float(input("Digite o valor da despesa: "))
 
-        linha = f"{titulo};{categoria};{valor}\n"  # Monta a linha com os valores separados por ponto e vírgula
+    linha = f"{titulo};{categoria};{valor}\n"  # Monta a linha com os valores separados por ponto e vírgula
 
-        f.write(linha)
-        f.close()
+    f.write(linha)
+    f.close()
     tela_despesas()
 
-
+#TELA VISUALIZAÇÃO DE GASTOS
 def VISUALIZAR_GASTOS():
     clear()
-    with open("valores.csv", "r") as f:
-        linhas = f.readlines()  # Lê todas as linhas do arquivo
+    f = open("valores.csv", "r")
+    linhas = f.readlines()  # Lê todas as linhas do arquivo
+
+    for linha in linhas:
+        titulo, categoria, valor = linha.strip().split(";")  # Divide a linha em campos usando o ponto e vírgula como separador
+        valor = float(valor)  # Converte o valor para float
+
+        print("--------------------")
+        print("Título:", titulo)
+        print("Categoria:", categoria)
+        print("Valor:", valor)
+        print("--------------------")
+
+    f.close()
+    voltar = input("[1]Voltar: ")
+    if voltar == "1":
+        loading()
+        tela_despesas()
+
+            #  -> PERGUNTA: CATEGORIA ESPECIFICA; PERGUNTA: GASTOS POR CATEGORIA
+
+#TELA APAGAR OS GASTOS (INCOMPLETA)
+def APAGAR_GASTOS():
+    clear()
+    titulo = input("Digite o título do gasto a ser removido: ")
+
+    encontrado = False
+
+    with open("valores.csv", "r") as f, open("valores_temp.csv", "w") as f_temp:
+
+        linhas = f.readlines()
 
         for linha in linhas:
-            titulo, categoria, valor = linha.strip().split(";")  # Divide a linha em campos usando o ponto e vírgula como separador
-            valor = float(valor)  # Converte o valor para float
+            campos = linha.strip().split(";")
 
-            print("--------------------")
-            print("Título:", titulo)
-            print("Categoria:", categoria)
-            print("Valor:", valor)
-            print("--------------------")
+            if campos[0] == titulo:
+                encontrado = True
+            else:
+                f_temp.write(linha)
 
-              #  -> PERGUNTA: CATEGORIA ESPECIFICA; PERGUNTA: GASTOS POR CATEGORIA
+    if encontrado:
+        with open("valores.csv", "w") as f_original, open("valores_temp.csv", "r") as f_temp:
+        
+            f_original.write(f_temp.read())
 
-def APAGAR_GASTOS():
-    print("") #-> ESCOLHE CATEGORIA -> exibe lista (ex.: brinquedo:10) -> PERGUNTA: limpar categoria
-              #                                                        -> PERGUNTA: apagar um titulo
-              #                                                        -> PERGUNTA: apagar um valor do titulo
+        with open("valores_temp.csv", "w"):
+            pass
+
+        print(f"Gasto com o título '{titulo}' removido com sucesso.\n")
+    else:
+        with open("valores_temp.csv", "w"):
+            pass
+
+        print(f"Gasto com o título '{titulo}' não encontrado.\n")
 
 def EDITAR():
     print("")
