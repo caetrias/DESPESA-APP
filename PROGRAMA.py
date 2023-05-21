@@ -1,6 +1,7 @@
 import os 
 import time
 
+diclog = {}
 
 #FUNCAO CLEAR
 def clear():
@@ -15,21 +16,53 @@ def loading():
 #TELA DO LOGIN
 def login():
     clear()
-    print("-------[LOGIN]-------")
-    print("INCOMPLETO")
-    time.sleep(1)
-    tela_despesas()
+    print("já possui um login?")
+    print("[1]SIM")
+    print("[2]NÃO")
+    resp = int(input())
+
+    if resp == 1:
+        log1 = input("Digite seu nome: ")
+        log2 = input("Digite sua senha: ")
+
+        if log1 in diclog["nome"] and log2 in diclog["senha"]:
+            print("Cadastro concluído!")
+            time.sleep(1.5)
+            return tela_despesas()
+
+        else:
+            print("Nome ou senha incorreto(s)...")
+            time.sleep(1.5)
+            return tela_inicio()
+
+    else:
+        cadastro()
     #ABRIR ARQUIVO E VERIFICAR SE LOGIN ESTA DENTRO -> SE LOGIN NAO ESTIVER, EXIBIR MENSAGEM, ESPERAR E VOLTAR TELA INICIO
 
 #TELA CADASTRO
 def cadastro():
     clear()
-    print("-------[CADASTRO]-------")
-    nome = input("\nDigite um nome para identificação: ")
-    cadastros = open("cadastros.txt", "a")
-    cadastros.write(nome)
-    cadastros.close()
-    tela_inicio()
+    nome = input("Digite seu nome: ")
+    senha = input("Digite sua senha: ")
+    diclog["nome"] = nome
+    diclog["senha"] = senha
+
+    clear()
+    print("NOME:", diclog["nome"], "\nSENHA:", diclog["senha"], "\n")
+    print("Está correto?")
+    print("[1]SIM")
+    print("[2]NÂO")
+    correto = int(input())
+
+    if correto == 1:
+        return tela_inicio()
+        
+    else:
+        print("Tente novamente...")
+        diclog.pop("nome")
+        diclog.pop("senha")
+        time.sleep(1)
+        return tela_inicio()
     
 #TELA INICIAL
 def tela_inicio():
