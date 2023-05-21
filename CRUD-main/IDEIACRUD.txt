@@ -1,0 +1,27 @@
+PROGRAMA PARA NATALIA
+(ANTES DE TUDO, APARECER A OPÇÃO DE ADICIONAR)
+
+-ADICIONAR GASTOS
+ -> TITULO DO GASTO
+ -> CATEGORIA DO GASTO(casa, comida, transporte, lazer, saude)
+ -> VALOR
+
+-VISUALIZAR GASTOS 
+ -> PERGUNTA: CATEGORIA ESPECIFICA
+   -> exibe titulos e seus valores
+ -> PERGUNTA: GASTOS POR CATEGORIA 
+   -> exibe valores de cada categoria e exibir total gasto
+
+-REMOVER GASTOS
+ -> ESCOLHE CATEGORIA
+   -> exibe em lista (ex.:"brinquedo:10, roupa:100")
+     ->PERGUNTA: limpar categoria
+     ->PERGUNTA: apagar um titulo
+        ->PERGUNTA: apagar o titulo
+	->PERGUNTA: apagar um valor do titulo
+     
+
+-EDITAR GASTOS
+
+
+(IDEIAS EXTRAS: ADICIONAR BIBLIOTECA DE TEMPO/DATA)
