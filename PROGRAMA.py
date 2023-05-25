@@ -17,114 +17,138 @@ def loading():
 
 #TELA DO LOGIN
 def login():
-    global nome
+    try:
+        global nome
 
-    clear()
-    nome = input('Digite o seu login: ')
-    senha = input('Digite a sua senha: ')
-    
-    file = open('login.csv', 'a', encoding='utf8')
-    file.close()
-    file = open('login.csv', 'r', encoding='utf8')
-    linhas = file.readlines()
+        clear()
+        nome = input('Digite o seu login: ')
+        senha = input('Digite a sua senha: ')
+        
+        file = open('login.csv', 'a', encoding='utf8')
+        file.close()
+        file = open('login.csv', 'r', encoding='utf8')
+        linhas = file.readlines()
 
-    for linha in linhas:
-        dados = linha.strip().split(';')
-        if nome == dados[0] and senha == dados[1]:
-            print('Login bem sucedido')
-            file.close()
-            loading()
-            return tela_despesas()
+        for linha in linhas:
+            dados = linha.strip().split(';')
+            if nome == dados[0] and senha == dados[1]:
+                print('Login bem sucedido')
+                file.close()
+                loading()
+                return tela_despesas()
 
-    print('Login ou senha incorretos')
-    file.close()
-    time.sleep(1.5)
-    return tela_inicio()
+        print('Login ou senha incorretos')
+        file.close()
+        time.sleep(1.5)
+        return tela_inicio()
+        
+    except:
+        print("ERRO")
+        time.sleep(1)
+        return tela_inicio()
 
     #ABRIR ARQUIVO E VERIFICAR SE LOGIN ESTA DENTRO -> SE LOGIN NAO ESTIVER, EXIBIR MENSAGEM, ESPERAR E VOLTAR TELA INICIO
 
 
 #TELA CADASTRO
 def cadastro():
-    global nome
+    try:
+        global nome
 
-    clear()
-    nome = input('Digite o seu login: ')
-    senha = input('Digite a sua senha: ')
+        clear()
+        nome = input('Digite o seu login: ')
+        senha = input('Digite a sua senha: ')
 
-    f = open('login.csv', 'a')
-    f.close()
+        f = open('login.csv', 'a')
+        f.close()
 
-    arquivo = open('login.csv', 'r', encoding='utf8')
-    linhas = arquivo.readlines()
-    for linha in linhas:
-        dados = linha.strip().split(';')
-        if nome == dados[0]:
-            print('Nome já existente. Tente novamente')
-            time.sleep(1.5)
-            return cadastro()
-    arquivo.close()
+        arquivo = open('login.csv', 'r', encoding='utf8')
+        linhas = arquivo.readlines()
+        for linha in linhas:
+            dados = linha.strip().split(';')
+            if nome == dados[0]:
+                print('Nome já existente. Tente novamente')
+                time.sleep(1.5)
+                return cadastro()
+        arquivo.close()
 
-    file = open('login.csv', 'a', encoding='utf8')
-    file.write(f'{nome};{senha}\n')
-    file.close()
-    loading()
-    print('Conta criada!')
-    time.sleep(1.5)
-    return tela_despesas()
+        file = open('login.csv', 'a', encoding='utf8')
+        file.write(f'{nome};{senha}\n')
+        file.close()
+        loading()
+        print('Conta criada!')
+        time.sleep(1.5)
+        return tela_despesas()
+    
+    except:
+        print("ERRO")
+        time.sleep(1)
+        return tela_inicio()
     
 
 #TELA INICIAL
 def tela_inicio():
-    clear()
-    print("-------------[BEM-VINDO(A)]-------------")
-    print("[1]Logar") 
-    print("[2]Cadastro")
-    print("[3]Encerrar Programa")
-    decisao = int(input())
-    if decisao == 1:
-        return login()
-    if decisao == 2:
-        return cadastro()
-    if decisao == 3:
-        return print("FIM DO PROGRAMA")
-    else:
-        print("Opção não existe. Reiniciando...")
+    try:
+        clear()
+        print("-------------[BEM-VINDO(A)]-------------")
+        print("[1]Logar") 
+        print("[2]Cadastro")
+        print("[3]Encerrar Programa")
+        decisao = int(input())
+        if decisao == 1:
+            return login()
+        if decisao == 2:
+            return cadastro()
+        if decisao == 3:
+            return print("FIM DO PROGRAMA")
+        else:
+            print("Opção não existe. Reiniciando...")
+            time.sleep(1)
+            tela_inicio()
+
+    except ValueError:
+        print("ERRO. CARACTERES INVALIDOS")
         time.sleep(1)
-        tela_inicio()
-        
+        return tela_inicio()
+
 
 #TELA PRINCIPAL (PÓS TELA INICIAL DE LOGIN)
 def tela_despesas():
-    clear()
-    print("-------------[DESPESAS]-------------")
-    print("[1]ADICIONAR GASTOS") 
-    print("[2]VISUALIZAR")
-    print("[3]APAGAR GASTOS")
-    print("[4]EDITAR")
-    print("\n[5]VOLTAR")
+    try:
+        clear()
+        print("-------------[DESPESAS]-------------")
+        print("[1]ADICIONAR GASTOS") 
+        print("[2]VISUALIZAR")
+        print("[3]APAGAR GASTOS")
+        print("[4]EDITAR")
+        print("\n[5]VOLTAR")
 
-    decisao = int(input())
-    if decisao == 1:
-        loading()
-        return ADICIONAR_GASTOS()
-    elif decisao == 2:
-        loading()
-        return VISUALIZAR_GASTOS()
-    elif decisao == 3:
-        loading()
-        return APAGAR_GASTOS()
-    elif decisao == 4:
-        loading()
-        return "tela edicao"
-    elif decisao == 5:
-        loading()
-        return tela_inicio()
-    else:
-        os.system("cls")
-        print("OPÇÃO INVÁLIDA")
+        decisao = int(input())
+        if decisao == 1:
+            loading()
+            return ADICIONAR_GASTOS()
+        elif decisao == 2:
+            loading()
+            return VISUALIZAR_GASTOS()
+        elif decisao == 3:
+            loading()
+            return APAGAR_GASTOS()
+        elif decisao == 4:
+            loading()
+            return EDITAR()
+        elif decisao == 5:
+            loading()
+            return tela_inicio()
+        else:
+            os.system("cls")
+            print("OPÇÃO INVÁLIDA")
+            time.sleep(1)
+            tela_despesas()
+
+    except ValueError:
+        print("ERRO. CARACTERES INVALIDOS")
         time.sleep(1)
-        tela_despesas()
+        return tela_inicio()
 
 
 #TELA ADICIONAR GASTOS
@@ -171,6 +195,7 @@ def VISUALIZAR_GASTOS():
     print("\n[1]VOLTAR")
     print("[2]APAGAR DESPESA")
     print("[3]PESQUISAR POR CATEGORIA")
+    print("[4]EDITAR DESPESA")
 
     decisao = input()
     if decisao == "1":
@@ -181,6 +206,9 @@ def VISUALIZAR_GASTOS():
         APAGAR_GASTOS()
     elif decisao == "3":
         return VISUALIZACAO_CATEGORIA()
+    elif decisao == "4":
+        loading()
+        return EDITAR()
     else:
         os.system("cls")
         print("OPÇÃO INVÁLIDA")
@@ -191,85 +219,153 @@ def VISUALIZAR_GASTOS():
         
 
 def VISUALIZACAO_CATEGORIA():
-    clear()
-    total = 0
-    encontrado = False
+    try:
+        clear()
+        total = 0
+        encontrado = False
 
-    categoria = input("Digite a categoria dos gastos a serem exibidos: ").lower()
+        categoria = input("Digite a categoria dos gastos a serem exibidos: ").lower()
 
-    f = open(f"{nome}.csv", "r")
-
-    linhas = f.readlines()
-    print()
-    for linha in linhas:
-        campos = linha.strip().split(";")
-
-        if campos[1] == categoria:
-            titulo = campos[0]
-            valor = float(campos[2])
-            print(f"Título: {titulo} | Valor: {valor}")
-            total += valor
-            encontrado = True
-    f.close()
-
-    if encontrado:
-        print(f"\nExtrato da categoria '{categoria}': Total = R$ {total:.2f}")
-    else:
-        print(f"Nenhum gasto encontrado na categoria '{categoria}'.")
-
-    print("\n[1]VOLTAR")
-
-    voltar = int(input())
-
-    if voltar == "1":
-        loading()
-        VISUALIZAR_GASTOS()
-    else:
-        time.sleep(1)
-        VISUALIZAR_GASTOS()
-
-
-#TELA APAGAR OS GASTOS (INCOMPLETA)
-def APAGAR_GASTOS(): #cria um arquivo temporario, onde são armazenados todos os gastos, menos o citado. Daí, o arquivo principal é reescrito com as informações do original.
-    clear()
-    titulo = input("Digite o título do gasto a ser removido: ").lower()
-
-    encontrado = False
-
-    with open(f"{nome}.csv", "r") as f, open(f"{nome}_temp.csv", "w") as f_temp:
+        f = open(f"{nome}.csv", "r")
 
         linhas = f.readlines()
-
+        print()
         for linha in linhas:
             campos = linha.strip().split(";")
 
-            if campos[0] == titulo:
+            if campos[1] == categoria:
+                titulo = campos[0]
+                valor = float(campos[2])
+                print(f"Título: {titulo} | Valor: {valor}")
+                total += valor
                 encontrado = True
-            else:
-                f_temp.write(linha)
+        f.close()
 
-    if encontrado:
-        with open(f"{nome}.csv", "w") as f, open(f"{nome}_temp.csv", "r") as f_temp:
-        
-            f.write(f_temp.read())
+        if encontrado:
+            print(f"\nExtrato da categoria '{categoria}': Total = R$ {total:.2f}")
+        else:
+            print(f"Nenhum gasto encontrado na categoria '{categoria}'.")
 
-        with open(f"{nome}_temp.csv", "w"):
-            pass
+        print("\n[1]VOLTAR")
 
-        print(f"Gasto com o título '{titulo}' removido com sucesso.\n")
-        time.sleep(1.5)
-        tela_despesas()
+        voltar = int(input())
 
-    else:
-        with open(f"{nome}_temp.csv", "w"):
-            pass
+        if voltar == "1":
+            loading()
+            VISUALIZAR_GASTOS()
+        else:
+            time.sleep(1)
+            VISUALIZAR_GASTOS()
+    except FileNotFoundError:
+        print("NENHUM GASTO COMPUTADO")
+        time.sleep(1)
+        return tela_despesas()
 
-        print(f"Gasto com o título '{titulo}' não encontrado.\n")
-        time.sleep(1.5)
-        tela_despesas()
+#TELA APAGAR OS GASTOS (INCOMPLETA)
+def APAGAR_GASTOS(): #cria um arquivo temporario, onde são armazenados todos os gastos, menos o citado. Daí, o arquivo principal é reescrito com as informações do original.
+    try:
+        clear()
+        titulo = input("Digite o título do gasto a ser removido: ").lower()
+
+        encontrado = False
+
+        with open(f"{nome}.csv", "r") as f, open(f"{nome}_temp.csv", "w") as f_temp:
+
+            linhas = f.readlines()
+
+            for linha in linhas:
+                campos = linha.strip().split(";")
+
+                if campos[0] == titulo:
+                    encontrado = True
+                else:
+                    f_temp.write(linha)
+
+        if encontrado:
+            with open(f"{nome}.csv", "w") as f, open(f"{nome}_temp.csv", "r") as f_temp:
+            
+                f.write(f_temp.read())
+
+            with open(f"{nome}_temp.csv", "w"):
+                pass
+
+            print(f"Gasto com o título '{titulo}' removido com sucesso.\n")
+            time.sleep(1.5)
+            tela_despesas()
+
+        else:
+            with open(f"{nome}_temp.csv", "w"):
+                pass
+
+            print(f"Gasto com o título '{titulo}' não encontrado.\n")
+            time.sleep(1.5)
+            tela_despesas()
+
+    except:
+        print("ERRO")
+        time.sleep(1)
+        return tela_despesas()
 
 def EDITAR():
-    print("")
+    try:
+        clear()
+        titulo = input("Digite o título da despesa a ser editada: ")
+
+        encontrado = False
+
+        with open(f"{nome}.csv", "r") as f, open(f"{nome}_temp.csv", "w") as f_temp:
+            linhas = f.readlines()
+
+            for linha in linhas:
+                campos = linha.strip().split(";")
+
+                if campos[0] == titulo:
+                    encontrado = True
+                    nova_categoria = input("Digite a nova categoria (ou deixe em branco para manter a mesma): ")
+                    novo_valor = input("Digite o novo valor (ou deixe em branco para manter o mesmo): ")
+
+                    if nova_categoria == "":
+                        nova_categoria = campos[1]
+                    if novo_valor == "":
+                        novo_valor = campos[2]
+                    else:
+                        novo_valor = float(novo_valor)
+
+                    nova_linha = f"{titulo};{nova_categoria};{novo_valor}\n"
+                    f_temp.write(nova_linha)
+                else:
+                    f_temp.write(linha)
+
+        if encontrado == True:
+            with open(f"{nome}.csv", "w") as f, open(f"{nome}_temp.csv", "r") as f_temp:
+                conteudo_temporario = f_temp.read()
+                f.write(conteudo_temporario)
+
+            with open(f"{nome}_temp.csv", "w"):
+                pass
+
+            print(f"Despesa com o título '{titulo}' atualizada com sucesso.")
+        else:
+            with open(f"{nome}_temp.csv", "w"):
+                pass
+
+            print(f"Despesa com o título '{titulo}' não encontrada.")
+        
+        print("\n[1]VOLTAR")
+
+        voltar = int(input())
+
+        if voltar == 1:
+            loading()
+            tela_despesas()
+        else:
+            time.sleep(1)
+            tela_despesas()
+        
+    except ValueError:
+        print("ERRO")
+        time.sleep(1)
+        return tela_despesas()
 
 
 tela_inicio()
