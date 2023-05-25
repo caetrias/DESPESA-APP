@@ -1,6 +1,8 @@
 import os 
 import time
 
+global nome
+
 #FUNCAO CLEAR
 def clear():
     return os.system("cls")
@@ -15,6 +17,8 @@ def loading():
 
 #TELA DO LOGIN
 def login():
+    global nome
+
     clear()
     nome = input('Digite o seu login: ')
     senha = input('Digite a sua senha: ')
@@ -42,6 +46,8 @@ def login():
 
 #TELA CADASTRO
 def cadastro():
+    global nome
+
     clear()
     nome = input('Digite o seu login: ')
     senha = input('Digite a sua senha: ')
@@ -81,7 +87,7 @@ def tela_inicio():
     if decisao == 2:
         return cadastro()
     if decisao == 3:
-        return print("FIM DE PROGRAMA")
+        return print("FIM DO PROGRAMA")
     else:
         print("Opção não existe. Reiniciando...")
         time.sleep(1)
@@ -125,7 +131,7 @@ def tela_despesas():
 def ADICIONAR_GASTOS():
     clear()
     try:
-        f = open("valores.csv", "a")
+        f = open(f"{nome}.csv", "a")
         titulo = input("Digite o título da despesa: ").lower()
         categoria = input("Digite a categoria da despesa: ").lower()
         valor = float(input("Digite o valor da despesa: "))
@@ -145,7 +151,7 @@ def ADICIONAR_GASTOS():
 def VISUALIZAR_GASTOS():
     clear()
     total_gastos=0
-    f = open("valores.csv", "r")
+    f = open(f"{nome}.csv", "r")
     linhas = f.readlines()  # Lê todas as linhas do arquivo
 
     for linha in linhas:
@@ -191,7 +197,7 @@ def VISUALIZACAO_CATEGORIA():
 
     categoria = input("Digite a categoria dos gastos a serem exibidos: ").lower()
 
-    f = open("valores.csv", "r")
+    f = open(f"{nome}.csv", "r")
 
     linhas = f.readlines()
     print()
@@ -230,7 +236,7 @@ def APAGAR_GASTOS(): #cria um arquivo temporario, onde são armazenados todos os
 
     encontrado = False
 
-    with open("valores.csv", "r") as f, open("valores_temp.csv", "w") as f_temp:
+    with open(f"{nome}.csv", "r") as f, open(f"{nome}_temp.csv", "w") as f_temp:
 
         linhas = f.readlines()
 
@@ -243,11 +249,11 @@ def APAGAR_GASTOS(): #cria um arquivo temporario, onde são armazenados todos os
                 f_temp.write(linha)
 
     if encontrado:
-        with open("valores.csv", "w") as f, open("valores_temp.csv", "r") as f_temp:
+        with open(f"{nome}.csv", "w") as f, open(f"{nome}_temp.csv", "r") as f_temp:
         
             f.write(f_temp.read())
 
-        with open("valores_temp.csv", "w"):
+        with open(f"{nome}_temp.csv", "w"):
             pass
 
         print(f"Gasto com o título '{titulo}' removido com sucesso.\n")
@@ -255,7 +261,7 @@ def APAGAR_GASTOS(): #cria um arquivo temporario, onde são armazenados todos os
         tela_despesas()
 
     else:
-        with open("valores_temp.csv", "w"):
+        with open(f"{nome}_temp.csv", "w"):
             pass
 
         print(f"Gasto com o título '{titulo}' não encontrado.\n")
